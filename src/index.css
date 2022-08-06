@@ -42,7 +42,7 @@ code {
   cursor: pointer;
 }
 .cart-count{
-  padding: 0px 8px;
+  padding: 0px 5px;
   font-size: 20px;
   background-color: yellow;
   color: #0B2239;
@@ -56,6 +56,7 @@ code {
 .cart-item{
   display: flex;
   border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
   padding: 5px;
   margin: 10px;
   width: 400px;
@@ -63,7 +64,7 @@ code {
 .cart-image{
   height: 100px;
   width: 100px;
-  background-color: grey;
+  background-color: white;
 }
 .icon{
   width: 25px;
