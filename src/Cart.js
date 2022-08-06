@@ -2,6 +2,8 @@ import React from "react";
 import CartItem from "./CartItem";
 
 class Cart extends React.Component{
+
+    //constructor
     constructor(){
         super();
         this.state = {
@@ -27,6 +29,8 @@ class Cart extends React.Component{
             ]
         }
       }
+
+      //increase Quantity function
       increaseQuantity=(product)=>{
         const products=this.state.products;
         const index=products.indexOf(product);
@@ -37,6 +41,8 @@ class Cart extends React.Component{
             products:products
         });
       }
+
+      //decrease quantity function
       decreaseQuantity=(product)=>{
         const products=this.state.products;
         const index=products.indexOf(product);
@@ -51,6 +57,15 @@ class Cart extends React.Component{
             products
         })
       }
+
+      //delete product function
+      deleteProduct=(id)=>{
+        const products=this.state.products;
+        const newProducts=products.filter((item)=>item.id !== id)
+        this.setState({
+            products:newProducts
+        })
+      }
     render(){
         return(
             <div className="cart">
@@ -61,6 +76,7 @@ class Cart extends React.Component{
                                 key={product.id} 
                                 onIncreaseQuantity={this.increaseQuantity}
                                 onDecreaseQuantity={this.decreaseQuantity}
+                                onDeleteProduct={this.deleteProduct}
                             />
                 })}
             </div>
