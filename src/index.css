@@ -26,6 +26,32 @@ code {
 }
 
 
+/* style for navbar */
+.navbar-container{
+  height: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0B2239;
+  padding: 0px 50px;
+}
+.cart-logo{
+  height: 50px;
+  border-radius: 50%; 
+  cursor: pointer;
+}
+.cart-count{
+  padding: 0px 8px;
+  font-size: 20px;
+  background-color: yellow;
+  color: #0B2239;
+  border-radius: 50%;
+  position: absolute;
+  top:5px;
+  right: 40px;
+}
+
 /* style for cart item */
 .cart-item{
   display: flex;
