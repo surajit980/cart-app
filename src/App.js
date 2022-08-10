@@ -1,38 +1,67 @@
 import React from "react"
 import Cart from "./Cart";
 import Navbar from "./Navbar";
-
-
+import { db } from "./firebase-config";
+import { collection,onSnapshot } from "firebase/firestore";
+// import {getDocs,collection} from "firebase/firestore";
 class App extends React.Component {
    //constructor
    constructor(){
     super();
     this.state = {
         products: [
-            {
-                price: 999,
-                name: "Watch",
-                qty:1,
-                img:"https://content.rolex.com/dam/2022/upright-bba-with-shadow/m126283rbr-0031.png?impolicy=v6-upright&imwidth=270",
-                id:1
-            },
-            {
-                price: 99999,
-                name: "Laptop",
-                qty:2,
-                img:"https://m.media-amazon.com/images/I/81KoSSAwH2L._SL1500_.jpg",
-                id:2
-            },
-            {
-                price: 9999,
-                name: "Mobile Phone",
-                qty:10,
-                img:"https://i.gadgets360cdn.com/products/large/moto-g52-db-709x800-1649827920.jpg",
-                id:3
-            }
-        ]
+            // {
+            //     price: 999,
+            //     name: "Watch",
+            //     qty:1,
+            //     img:"https://content.rolex.com/dam/2022/upright-bba-with-shadow/m126283rbr-0031.png?impolicy=v6-upright&imwidth=270",
+            //     id:1
+            // },
+            // {
+            //     price: 99999,
+            //     name: "Laptop",
+            //     qty:2,
+            //     img:"https://m.media-amazon.com/images/I/81KoSSAwH2L._SL1500_.jpg",
+            //     id:2
+            // },
+            // {
+            //     price: 9999,
+            //     name: "Mobile Phone",
+            //     qty:10,
+            //     img:"https://i.gadgets360cdn.com/products/large/moto-g52-db-709x800-1649827920.jpg",
+            //     id:3
+            // }
+        ],loading:true
     }
   }
+
+
+  componentDidMount(){
+    const collectionRef=collection(db,"products")
+
+    // getDocs(collectionRef).then((snapshot)=>{
+    //   const products=snapshot.docs.map((doc)=>{
+    //     const data=doc.data();
+    //     data['id']=doc.id;
+    //     return data;
+    //   })
+    //   this.setState({
+    //     products,loading:false
+    //   })
+    // })
+
+    onSnapshot(collectionRef,(snapshot)=>{
+      const products=snapshot.docs.map((doc)=>{
+        const data=doc.data();
+        data['id']=doc.id;
+        return data;
+      })
+      this.setState({
+        products,loading:false
+      })
+    })
+  }
+
 
   //increase Quantity function
   increaseQuantity=(product)=>{
@@ -105,6 +134,7 @@ class App extends React.Component {
         onDecreaseQuantity={this.decreaseQuantity}
         onDeleteProduct={this.deleteProduct}
         />
+        {this.state.loading && <h4 style={{"color":"red","textAlign":"center"}}>Loading.......</h4>}
         <div><h3 style={{margin:"20px"}}>TOTAL : {this.totalPriceCount()}</h3></div>
       </div>
     );
