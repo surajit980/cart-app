@@ -24,7 +24,9 @@ code {
 .text-center{
   text-align: center;
 }
-
+.ml{
+  margin-left: 5px;
+}
 
 /* style for navbar */
 .navbar-container{

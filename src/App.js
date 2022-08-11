@@ -2,7 +2,7 @@ import React from "react"
 import Cart from "./Cart";
 import Navbar from "./Navbar";
 import { db } from "./firebase-config";
-import { collection,onSnapshot } from "firebase/firestore";
+import { collection,onSnapshot,addDoc, doc, updateDoc,deleteDoc } from "firebase/firestore";
 // import {getDocs,collection} from "firebase/firestore";
 class App extends React.Component {
    //constructor
@@ -37,9 +37,9 @@ class App extends React.Component {
 
 
   componentDidMount(){
-    const collectionRef=collection(db,"products")
+    const productsRef=collection(db,"products")
 
-    // getDocs(collectionRef).then((snapshot)=>{
+    // getDocs(productsRef).then((snapshot)=>{
     //   const products=snapshot.docs.map((doc)=>{
     //     const data=doc.data();
     //     data['id']=doc.id;
@@ -50,7 +50,7 @@ class App extends React.Component {
     //   })
     // })
 
-    onSnapshot(collectionRef,(snapshot)=>{
+    onSnapshot(productsRef,(snapshot)=>{
       const products=snapshot.docs.map((doc)=>{
         const data=doc.data();
         data['id']=doc.id;
@@ -67,37 +67,43 @@ class App extends React.Component {
   increaseQuantity=(product)=>{
     const products=this.state.products;
     const index=products.indexOf(product);
+    const id=products[index].id;
+    // products[index].qty+=1;
 
-    products[index].qty+=1;
+    // this.setState({
+    //     products:products
+    // });
 
-    this.setState({
-        products:products
-    });
+    updateDoc(doc(db,"products",id),{qty:products[index].qty+=1})
+    
   }
 
   //decrease quantity function
   decreaseQuantity=(product)=>{
     const products=this.state.products;
     const index=products.indexOf(product);
-
+    const id=products[index].id;
     if (products[index].qty === 0) {
         return;
     }
 
-    products[index].qty-=1;
+    // products[index].qty-=1;
 
-    this.setState({
-        products
-    })
+    // this.setState({
+    //     products
+    // })
+
+    updateDoc(doc(db,"products",id),{qty:products[index].qty-=1})
   }
 
   //delete product function
   deleteProduct=(id)=>{
-    const products=this.state.products;
-    const newProducts=products.filter((item)=>item.id !== id)
-    this.setState({
-        products:newProducts
-    })
+    // const products=this.state.products;
+    // const newProducts=products.filter((item)=>item.id !== id)
+    // this.setState({
+    //     products:newProducts
+    // })
+    deleteDoc(doc(db,"products",id));
   }
 
   //get products number function
@@ -122,11 +128,22 @@ class App extends React.Component {
     return total;
   }
 
+  //add product function
+  addProduct=()=>{
+    addDoc(collection(db,"products"),{
+      img:"https://www.lg.com/in/images/washing-machines/md07540744/gallery/FHM1207BDL-Washing-Machines-Front-View-D-01.jpg",
+      name:"Washer Machine",
+      price:50000,
+      qty:1
+    })
+  }
+
   render(){
     return (
       <div>
         <Navbar
         count={this.getProductsCount()}
+        addProduct={this.addProduct}
         />
         <Cart
         products ={this.state.products}
